@@ -15,7 +15,8 @@ class User(object):
 
 if __name__=='__main__':
     connector = rti.Connector("MyParticipantLibrary::Zero", "Bus.xml")
-    operator = connector.getInput("Subscriber::BusSubscriber")
+    position_subscription = connector.getInput("Subscriber::BusPositionSubscriber")
+    accident_subscription = connector.getInput("Subscriber::BusAccidentSubscriber")
 
     user = User("EXPRESS1", 1, 4)
     status = True
@@ -24,24 +25,33 @@ if __name__=='__main__':
 
     print("Waiting for the bus..")
     while status:
-        operator.take()
-        numOfSamples = operator.samples.getLength()
-        for j in range(0, numOfSamples):
-                if operator.infos.isValid(j):
-                        bus_route = operator.samples.getString(j, "route")
-                        vehicle = operator.samples.getString(j, "vehicle")
-                        stop_number = int(operator.samples.getNumber(j, "stopNumber"))
-                        timestamp = operator.samples.getString(j, "timestamp")
-                        traffic_condition = operator.samples.getString(j, "trafficConditions")
-                        stops_left = int(operator.samples.getNumber(j, "numStops")) - stop_number
+        position_subscription.take()
+        num_of_busses_positions = position_subscription.samples.getLength()
+
+        for j in range(0, num_of_busses_positions):
+                if position_subscription.infos.isValid(j):
+                        bus_route = position_subscription.samples.getString(j, "route")
+                        vehicle = position_subscription.samples.getString(j, "vehicle")
+                        stop_number = int(position_subscription.samples.getNumber(j, "stopNumber"))
+                        time_between_stops = int(position_subscription.samples.getNumber(j, "timeBetweenStops"))
+                        timestamp = position_subscription.samples.getString(j, "timestamp")
+                        traffic_condition = position_subscription.samples.getString(j, "trafficConditions")
+                        stops_left = int(position_subscription.samples.getNumber(j, "numStops")) - stop_number
 
                         if (stop_number==user.departure) and (bus_route==user.bus_route) and (not on_board_status):
                             on_board_status = True
                             current_vehicle = vehicle
-                            print("Getting on {} at {}, {}, {} stops left".format(vehicle, timestamp, traffic_condition, stops_left))
-                        elif (stop_number!=user.destination) and (current_vehicle==vehicle) and (bus_route==user.bus_route) and (on_board_status):
-                            print("Arriving at stop #{}, at {}, {}, {} stops left".format(stop_number, timestamp, traffic_condition, stops_left))
-                        elif (stop_number==user.destination) and (on_board_status):
+                            if time_between_stops > 10:
+                                print("Getting on {} at {}, {}, accident, {} stops left".format(vehicle, timestamp, traffic_condition, stops_left))
+                                pass
+                            else:
+                                print("Getting on {} at {}, {}, {} stops left".format(vehicle, timestamp, traffic_condition, stops_left))
+                        elif (stop_number!=user.destination) and (current_vehicle==vehicle) and (on_board_status):
+                            if time_between_stops > 10:
+                                print("Arriving at stop #{}, at {}, {}, accident, {} stops left".format(stop_number, timestamp, traffic_condition, stops_left))
+                            else:
+                                print("Arriving at stop #{}, at {}, {}, {} stops left".format(stop_number, timestamp, traffic_condition, stops_left))
+                        elif (stop_number==user.destination) and (current_vehicle==vehicle) and (on_board_status):
                             print("Arriving at destination by {} at {}".format(vehicle, timestamp))
                             status = False
                             break

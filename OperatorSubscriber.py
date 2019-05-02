@@ -13,6 +13,15 @@ while True:
         num_of_busses_positions = position_subscription.samples.getLength()
         num_of_accidents = accident_subscription.samples.getLength()
 
+        if num_of_accidents > 0:
+                for j in range(0, num_of_accidents):
+                        if accident_subscription.infos.isValid(j):
+                                bus_route = accident_subscription.samples.getString(j, "route")
+                                vehicle = accident_subscription.samples.getString(j, "vehicle")
+                                stop_number = accident_subscription.samples.getNumber(j, "stopNumber")
+                                timestamp = accident_subscription.samples.getString(j, "timestamp")
+                                print("Accident {: >15}{: >15}{: >30}{: >60}".format(bus_route, vehicle, int(stop_number), timestamp))
+        
         if num_of_busses_positions > 0:
                 for j in range(0, num_of_busses_positions):
                         if position_subscription.infos.isValid(j):
@@ -26,13 +35,5 @@ while True:
                                 timestamp = position_subscription.samples.getString(j, "timestamp")
                                 print("Position {: >15}{: >15}{: >15}{: >15}{: >15}{: >15}{: >15}{: >15}".format(bus_route, vehicle, traffic_condition, int(stop_number), int(number_of_stops), time_at_each_stop, int(fill_in_ratio), timestamp))
         
-        if num_of_accidents > 0:
-                for j in range(0, num_of_accidents):
-                        if accident_subscription.infos.isValid(j):
-                                bus_route = accident_subscription.samples.getString(j, "route")
-                                vehicle = accident_subscription.samples.getString(j, "vehicle")
-                                stop_number = accident_subscription.samples.getNumber(j, "stopNumber")
-                                timestamp = accident_subscription.samples.getString(j, "timestamp")
-                                print("Accident {: >15}{: >15}{: >30}{: >60}".format(bus_route, vehicle, int(stop_number), timestamp))
         
         sleep(1)

@@ -40,11 +40,13 @@ class Publisher(object):
 class Bus(object):
 
     def __init__(self, bus_route, vehicle, number_of_stops, time_between_stops):
+        self.initial_time_between_stops = time_between_stops
         self.bus_route = bus_route
         self.vehicle = vehicle
         self.number_of_stops = number_of_stops
         self.time_between_stops = time_between_stops
         self.stop_number = 0
+        
         self.traffics = self.assign_traffic(number_of_stops)
         self.accidents = self.assign_accident(number_of_stops)
 
@@ -85,16 +87,21 @@ class Bus(object):
                 self.stop_number += 1
 
 
-    def publish_position(self):
+    def publish_position(self, accident_status=False):
         self.generate_update()
         self.position_publisher.instance.setString("timestamp", self.timestamp)
         self.position_publisher.instance.setString("route", self.bus_route)
         self.position_publisher.instance.setString("vehicle", self.vehicle)
         self.position_publisher.instance.setNumber("stopNumber", self.stop_number)
         self.position_publisher.instance.setNumber("numStops", self.number_of_stops)
-        self.position_publisher.instance.setNumber("timeBetweenStops", self.time_between_stops)
         self.position_publisher.instance.setString("trafficConditions", self.traffic_condition)
         self.position_publisher.instance.setNumber("fillInRatio", random.randint(1, 100))
+
+        if accident_status==True:
+            self.position_publisher.instance.setNumber("timeBetweenStops", self.time_between_stops+10)
+        else:
+            self.position_publisher.instance.setNumber("timeBetweenStops", self.time_between_stops)
+
         self.position_publisher.write()
 
         return "{} published a position message at stop #{} on route {} at {}".format(self.vehicle, self.stop_number, self.bus_route, self.timestamp)
@@ -114,13 +121,14 @@ class Bus(object):
     def run_bus_service(self):
         for i in range(3):
             for i in range(self.number_of_stops):
-
-                #Determine wheather or not we publish an accident
+                #reset
+                self.time_between_stops = self.initial_time_between_stops
                 try:
+                    #bus_stop_with_accident returns the stop number where an accident occurs
                     bus_stop_with_accident = self.accidents[-1]
 
                     if self.stop_number == bus_stop_with_accident:
-                        position_response = self.publish_position()
+                        position_response = self.publish_position(accident_status=True)
                         accident_response = self.publish_accident()
                         print(position_response)
                         print(accident_response)
