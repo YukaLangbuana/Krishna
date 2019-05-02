@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/5.1.0/rti_dds_profiles.xsd" version="5.1.0">
+
+  <!-- Qos Library -->
+	<qos_library name="QosLibrary">
+		<qos_profile name="DefaultProfile" base_name="BuiltinQosLibExp::Generic.StrictReliable" is_default_qos="true">
+			<participant_qos>
+				<transport_builtin>
+				    <mask>UDPV4 | SHMEM</mask>
+				</transport_builtin>
+			</participant_qos>
+		</qos_profile>
+	</qos_library>
+
+  <!-- types -->
+  <types>
+
+		<struct name="Position" extensibility="extensible">
+      <member name="timestamp" id="0" stringMaxLength="128" type="string" />
+      <member name="route" id="1" stringMaxLength="128" type="string" />
+      <member name="vehicle" id="2" stringMaxLength="128" type="string" />
+      <member name="stopNumber" id="3" type="long" />
+      <member name="numStops" id="4" type="long" />
+      <member name="timeBetweenStops" id="5" type="long" />
+      <member name="trafficConditions" id="6" stringMaxLength="128" type="string" />
+      <member name="fillInRatio" id="7" type="long" />
+		</struct>
+
+    <struct name="Accident" extensibility="extensible">
+      <member name="timestamp" id="0" stringMaxLength="128" type="string" />
+      <member name="route" id="1" stringMaxLength="128" type="string" />
+      <member name="vehicle" id="2" stringMaxLength="128" type="string" />
+      <member name="stopNumber" id="3" type="long" />
+		</struct>
+    
+  </types>
+
+
+  <!-- Domain Library -->
+  <domain_library name="MyDomainLibrary">
+    <domain name="MyDomain" domain_id="0">
+
+      <register_type name="Position"  type_ref="Position" />
+      <topic name="BusPosition"    register_type_ref="Position"/>
+
+      <register_type name="Accident"  type_ref="Accident" />
+      <topic name="BusAccident"    register_type_ref="Accident"/>
+    </domain>
+  </domain_library>
+
+
+  <!-- Participant library -->
+  <domain_participant_library name="MyParticipantLibrary">
+    <domain_participant name="Zero" domain_ref="MyDomainLibrary::MyDomain">
+      <publisher name="Publisher">
+			  <data_writer name="BusPositionPublisher" topic_ref="BusPosition" />
+        <data_writer name="BusAccidentPublisher" topic_ref="BusAccident" />
+      </publisher>
+      <subscriber name="Subscriber">
+        <data_reader name="BusPositionSubscriber" topic_ref="BusPosition" />
+        <data_reader name="BusAccidentSubscriber" topic_ref="BusAccident" />
+      </subscriber>
+	  </domain_participant>
+  </domain_participant_library>
+
+</dds>
