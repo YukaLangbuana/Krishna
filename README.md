@@ -1,5 +1,5 @@
 # Krishna
-A simplistic distributed bus tracking system. Built on top pf RTI DDS middleware. A WSU CPTS464 project.
+A simplistic distributed bus tracking system. Built on top of RTI DDS middleware. A WSU CPTS464 project.
 
 ## Setup
 Krishna is the repository name for WSU's CPTS464 class project under Prof. Dave Bakken. I built this on using RTI's DDS middleware and Python. 
