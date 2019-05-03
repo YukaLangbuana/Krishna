@@ -21,7 +21,7 @@
       <member name="vehicle" id="2" stringMaxLength="128" type="string" />
       <member name="stopNumber" id="3" type="long" />
       <member name="numStops" id="4" type="long" />
-      <member name="timeBetweenStops" id="5" type="long" />
+      <member name="timeBetweenStops" id="5" type="double" />
       <member name="trafficConditions" id="6" stringMaxLength="128" type="string" />
       <member name="fillInRatio" id="7" type="long" />
 		</struct>

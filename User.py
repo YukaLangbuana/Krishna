@@ -1,6 +1,7 @@
 from time import sleep
 import datetime
 import rticonnextdds_connector as rti
+import sys
 
 class User(object):
 
@@ -18,7 +19,7 @@ if __name__=='__main__':
     position_subscription = connector.getInput("Subscriber::BusPositionSubscriber")
     accident_subscription = connector.getInput("Subscriber::BusAccidentSubscriber")
 
-    user = User("EXPRESS1", 1, 4)
+    user = User(str(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
     status = True
     on_board_status = False
     current_vehicle = 0
@@ -36,7 +37,10 @@ if __name__=='__main__':
                         time_between_stops = int(position_subscription.samples.getNumber(j, "timeBetweenStops"))
                         timestamp = position_subscription.samples.getString(j, "timestamp")
                         traffic_condition = position_subscription.samples.getString(j, "trafficConditions")
-                        stops_left = int(position_subscription.samples.getNumber(j, "numStops")) - stop_number
+                        if user.destination < stop_number:
+                            stops_left = user.destination - stop_number + int(position_subscription.samples.getNumber(j, "numStops"))
+                        else:
+                            stops_left = user.destination - stop_number
 
                         if (stop_number==user.departure) and (bus_route==user.bus_route) and (not on_board_status):
                             on_board_status = True
