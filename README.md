@@ -2,7 +2,7 @@
 A simplistic distributed bus tracking system. Built on top of RTI DDS middleware. A WSU CPTS464 project.
 
 ## Setup
-Krishna is the repository name for WSU's CPTS464 class project under Prof. David Bakken. Built on top of RTI's lightweight DDS for Python. 
+Krishna is the repository name for WSU's CPTS464 class project under Prof. Dave Bakken. Built on top of RTI's lightweight DDS for Python. 
 
 To use RTI DDS Python connector. Install with pip \
 `$ pip3 install rticonnextdds_connector`
