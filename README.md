@@ -18,3 +18,6 @@ More on RTI DDS Python connector [here](https://github.com/rticommunity/rticonne
 
 3. Run User.py \
 `$ python3 User.py`
+
+## Runtime
+![Image](https://live.staticflickr.com/65535/33884824928_f6513e6a7b_h.jpg)
