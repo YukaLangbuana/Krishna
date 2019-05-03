@@ -17,7 +17,7 @@ More on RTI DDS Python connector [here](https://github.com/rticommunity/rticonne
 `$ python3 OperatorSubscriber.py`
 
 3. Run User.py \
-`$ python3 User.py`
+`$ python3 User.py <ROUTE> <ORIGIN> <DESTINATION>`
 
 ## Runtime
 ![Image](https://live.staticflickr.com/65535/33884824928_f6513e6a7b_h.jpg)
