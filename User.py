@@ -16,8 +16,8 @@ class User(object):
 
 if __name__=='__main__':
     connector = rti.Connector("MyParticipantLibrary::Zero", "Bus.xml")
-    position_subscription = connector.getInput("Subscriber::BusPositionSubscriber")
-    accident_subscription = connector.getInput("Subscriber::BusAccidentSubscriber")
+    position_subscription = connector.getInput("Subscriber::P2464_EECS_YUKALANGBUANA_POS")
+    accident_subscription = connector.getInput("Subscriber::P2464_EECS_YUKALANGBUANA_ACC")
 
     user = User(str(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
     status = True

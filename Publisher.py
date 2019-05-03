@@ -1,13 +1,3 @@
-###############################################################################
-# (c) 2005-2015 Copyright, Real-Time Innovations.  All rights reserved.       #
-# No duplications, whole or partial, manual or electronic, may be made        #
-# without express written permission.  Any such copies, or revisions thereof, #
-# must display this notice unaltered.                                         #
-# This code contains trade secrets of Real-Time Innovations, Inc.             #
-###############################################################################
-
-"""Samples's writer."""
-
 from time import sleep
 import datetime
 import rticonnextdds_connector as rti
@@ -49,8 +39,8 @@ class Bus(object):
         self.traffics = self.assign_traffic(number_of_stops)
         self.accidents = self.assign_accident(number_of_stops)
         self.connector = rti.Connector("MyParticipantLibrary::Zero", "Bus.xml")
-        self.position_publisher = self.connector.getOutput("Publisher::BusPositionPublisher")
-        self.accident_publisher = self.connector.getOutput("Publisher::BusAccidentPublisher")
+        self.position_publisher = self.connector.getOutput("Publisher::P2464_EECS_YUKALANGBUANA_POS")
+        self.accident_publisher = self.connector.getOutput("Publisher::P2464_EECS_YUKALANGBUANA_ACC")
 
     def assign_traffic(self, number_of_stops):
         traffic_condition = []

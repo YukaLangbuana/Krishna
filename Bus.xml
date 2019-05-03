@@ -53,12 +53,12 @@
   <domain_participant_library name="MyParticipantLibrary">
     <domain_participant name="Zero" domain_ref="MyDomainLibrary::MyDomain">
       <publisher name="Publisher">
-			  <data_writer name="BusPositionPublisher" topic_ref="BusPosition" />
-        <data_writer name="BusAccidentPublisher" topic_ref="BusAccident" />
+			  <data_writer name="P2464_EECS_YUKALANGBUANA_POS" topic_ref="BusPosition" />
+        <data_writer name="P2464_EECS_YUKALANGBUANA_ACC" topic_ref="BusAccident" />
       </publisher>
       <subscriber name="Subscriber">
-        <data_reader name="BusPositionSubscriber" topic_ref="BusPosition" />
-        <data_reader name="BusAccidentSubscriber" topic_ref="BusAccident" />
+        <data_reader name="P2464_EECS_YUKALANGBUANA_POS" topic_ref="BusPosition" />
+        <data_reader name="P2464_EECS_YUKALANGBUANA_ACC" topic_ref="BusAccident" />
       </subscriber>
 	  </domain_participant>
   </domain_participant_library>

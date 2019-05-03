@@ -2,8 +2,8 @@ from time import sleep
 import rticonnextdds_connector as rti
 
 connector = rti.Connector("MyParticipantLibrary::Zero", "Bus.xml")
-position_subscription = connector.getInput("Subscriber::BusPositionSubscriber")
-accident_subscription = connector.getInput("Subscriber::BusAccidentSubscriber")
+position_subscription = connector.getInput("Subscriber::P2464_EECS_YUKALANGBUANA_POS")
+accident_subscription = connector.getInput("Subscriber::P2464_EECS_YUKALANGBUANA_ACC")
 
 print("MessageType {: >10}{: >18}{: >15}{: >15}{: >15}{: >20}{: >10}{: >15}".format("Route", "Vehicle", "Traffic", "Stop#", "#Stops", "TimeBetweenStops", "Fill%", "Timestamp"))
 
